@@ -4,7 +4,7 @@ The public-facing university website — programs, faculty directory, notices, e
 
 - **Full spec:** [`ums-platform/docs/client/ums-public-web/requirement-spec.md`](https://github.com/ums-suite/ums-platform/blob/main/docs/client/ums-public-web/requirement-spec.md)
 - **Design system:** [`ums-design-system`](https://github.com/ums-suite/ums-design-system) · **API contracts:** [`ums-shared`](https://github.com/ums-suite/ums-shared)
-- **Tech:** Angular (latest LTS), SSR, Bengali/English i18n
+- **Tech:** Angular 22, SSR, Bengali/English i18n
 
 ## Status
 
