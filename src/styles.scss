@@ -1,0 +1,44 @@
+// Global styles -- requirement-spec.md §2 (Component/token source row): every visual value flows
+// through @ums/design-system's tokens; this app never hand-rolls its own color/type/spacing
+// values (PWEB-2).
+
+// Hand-authored partials: Google Fonts loading (Fraunces/Inter/Noto Sans+Serif Bengali), a
+// minimal reset, and token-backed utility classes. @use rules must precede all other rules.
+@use '@ums/design-system/styles/index' as ums;
+
+// tokens.css: token-driven CSS custom properties (light/dark, both @media(prefers-color-scheme)
+// and [data-theme] override) -- loaded as a plain stylesheet, never @use'd into the Sass module
+// graph (matches @ums/design-system's own README consumption instructions).
+// KNOWN PACKAGING GAP (see ums-admission-web's README/PR, not fixed here): the published dist
+// package.json's "exports" map only declares "." and "./package.json", so the documented bare
+// specifier `@import '@ums/design-system/styles/tokens.css'` fails Node/esbuild "exports"
+// resolution. A relative node_modules path sidesteps package-export resolution entirely (relative
+// imports are never subject to "exports") as a stopgap; swap back once design-system adds a
+// "./styles/*" export entry.
+@import '../node_modules/@ums/design-system/styles/tokens.css';
+
+// requirement-spec.md §7: light theme is this app's primary, brand-defining experience -- an
+// explicit background/color pairing keeps the very first (pre-hydration) paint on-brand even
+// before ThemeService's constructor runs (see app.ts, which additionally coerces the
+// design-system's own 'system' default to 'light' the first time a visitor arrives with no
+// stored preference).
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+// Editorial display type -- requirement-spec.md §7 "Typography as the primary design instrument".
+// A single, reusable utility rather than repeating the font-family/feature declarations in every
+// feature component's own stylesheet.
+.pweb-display {
+  font-family: var(--font-family-display);
+  font-feature-settings: var(--font-feature-numeric);
+}
