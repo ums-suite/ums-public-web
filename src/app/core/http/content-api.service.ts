@@ -3,8 +3,11 @@ import { Observable } from 'rxjs';
 import { PublicApiBase } from './public-api.base';
 import type {
   BannerDto,
+  DownloadResourceListPage,
+  EventDto,
   EventListPage,
   HomepageSectionDto,
+  NoticeDto,
   NoticeListPage,
 } from './content-api.models';
 
@@ -55,6 +58,39 @@ export class ContentApiService extends PublicApiBase {
           take: options.take,
           from: options.from,
           to: options.to,
+        }),
+      }),
+    );
+  }
+
+  /**
+   * PWEB-17: `GET /content/notices/{id}` returns a bare 410 Gone (no ProblemDetails body) for an
+   * Archived notice -- `NoticeService.GetByIdAsync`'s own documented "Cache-Correctness Backstop"
+   * (confirmed against `ums-core` source). `normalizeErrors`/`toUmsApiError` preserve the HTTP
+   * `status` on the thrown `UmsApiError`, so `notice-detail.component.ts` distinguishes a 410
+   * (render the designed "Archived" state) from a 404 (render "not found") by that field --
+   * neither is a broken page.
+   */
+  getNotice(id: string): Observable<NoticeDto> {
+    return this.normalizeErrors(this.http.get<NoticeDto>(this.apiUrl(`content/notices/${id}`)));
+  }
+
+  getEvent(id: string): Observable<EventDto> {
+    return this.normalizeErrors(this.http.get<EventDto>(this.apiUrl(`content/events/${id}`)));
+  }
+
+  /** Bare `category` string facet -- matches `DownloadResourceEndpoints.cs`'s real, server-filterable param (PWEB-22). */
+  listDownloads(options: {
+    readonly category?: string;
+    readonly skip: number;
+    readonly take: number;
+  }): Observable<DownloadResourceListPage> {
+    return this.normalizeErrors(
+      this.http.get<DownloadResourceListPage>(this.apiUrl('content/downloads'), {
+        params: this.buildParams({
+          category: options.category,
+          skip: options.skip,
+          take: options.take,
         }),
       }),
     );

@@ -1,0 +1,83 @@
+<header class="pweb-research-showcase__header">
+  <h1 class="pweb-display">{{ 'research.showcase.heading' | translate }}</h1>
+  <p>{{ 'research.showcase.intro' | translate }}</p>
+</header>
+
+<section aria-labelledby="pweb-research-publications-heading">
+  <h2 id="pweb-research-publications-heading" class="pweb-display">
+    {{ 'research.showcase.publicationsHeading' | translate }}
+  </h2>
+
+  @if (loading()) {
+    <p class="pweb-research-showcase__status">{{ 'common.loading' | translate }}</p>
+  } @else if (publications().length === 0) {
+    <p class="pweb-research-showcase__status">
+      {{ 'research.showcase.publicationsEmpty' | translate }}
+    </p>
+  } @else {
+    <ul class="pweb-research-showcase__list">
+      @for (publication of publications(); track publication.id) {
+        <li class="pweb-research-showcase__card">
+          <h3>{{ publication.title }}</h3>
+          <p class="pweb-research-showcase__venue">
+            {{ publication.venue.name }} &middot;
+            {{ publication.citation.publicationDate | date: 'yyyy' }}
+          </p>
+          <ul class="pweb-research-showcase__authors">
+            @for (author of publication.authors; track author.order) {
+              <li>
+                <ums-avatar [name]="author.name" size="sm" />
+                <span>{{ author.name }}</span>
+              </li>
+            }
+          </ul>
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<section aria-labelledby="pweb-research-grants-heading">
+  <h2 id="pweb-research-grants-heading" class="pweb-display">
+    {{ 'research.showcase.grantsHeading' | translate }}
+  </h2>
+
+  @if (!loading() && grants().length === 0) {
+    <p class="pweb-research-showcase__status">{{ 'research.showcase.grantsEmpty' | translate }}</p>
+  } @else {
+    <ul class="pweb-research-showcase__list">
+      @for (grant of grants(); track grant.id) {
+        <li class="pweb-research-showcase__card">
+          <h3>{{ grant.title }}</h3>
+          <p>{{ grant.description }}</p>
+          <p class="pweb-research-showcase__venue">
+            {{ grant.fundingAmount | number }} {{ grant.currency }} &middot; {{ grant.status }}
+          </p>
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<section aria-labelledby="pweb-research-repository-heading">
+  <h2 id="pweb-research-repository-heading" class="pweb-display">
+    {{ 'research.showcase.repositoryHeading' | translate }}
+  </h2>
+
+  @if (!loading() && repositoryEntries().length === 0) {
+    <p class="pweb-research-showcase__status">
+      {{ 'research.showcase.repositoryEmpty' | translate }}
+    </p>
+  } @else {
+    <ul class="pweb-research-showcase__list">
+      @for (entry of repositoryEntries(); track entry.id) {
+        <li class="pweb-research-showcase__card">
+          <h3>{{ entry.title }}</h3>
+          <p class="pweb-research-showcase__venue">
+            {{ entry.workType }} &middot; {{ entry.depositor.name }}
+          </p>
+        </li>
+      }
+    </ul>
+  }
+</section>

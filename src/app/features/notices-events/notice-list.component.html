@@ -1,0 +1,53 @@
+<header class="pweb-notice-list__header">
+  <h1 class="pweb-display">{{ 'notices.list.heading' | translate }}</h1>
+  <div
+    class="pweb-notice-list__facets"
+    role="group"
+    [attr.aria-label]="'notices.list.filterLabel' | translate"
+  >
+    <button
+      type="button"
+      class="pweb-notice-list__facet"
+      [class.pweb-notice-list__facet--active]="facet() === 'all'"
+      (click)="setFacet('all')"
+    >
+      {{ 'notices.list.facetAll' | translate }}
+    </button>
+    <button
+      type="button"
+      class="pweb-notice-list__facet"
+      [class.pweb-notice-list__facet--active]="facet() === 'urgent'"
+      (click)="setFacet('urgent')"
+    >
+      {{ 'notices.list.facetUrgent' | translate }}
+    </button>
+  </div>
+</header>
+
+<section aria-live="polite">
+  @if (loading()) {
+    <p class="pweb-notice-list__status">{{ 'common.loading' | translate }}</p>
+  } @else if (visibleNotices().length === 0) {
+    <p class="pweb-notice-list__status">{{ 'notices.list.empty' | translate }}</p>
+  } @else {
+    <ul class="pweb-notice-list__items">
+      @for (notice of visibleNotices(); track notice.id) {
+        <li>
+          <a class="pweb-notice-list__card" [routerLink]="['/notices', notice.id]">
+            @if (notice.isUrgent) {
+              <span class="pweb-notice-list__badge">{{
+                'notices.list.urgentBadge' | translate
+              }}</span>
+            }
+            <h2>{{ notice.title }}</h2>
+            @if (notice.publishedAt) {
+              <time [attr.datetime]="notice.publishedAt">{{
+                notice.publishedAt | date: 'mediumDate'
+              }}</time>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</section>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { ContentApiService } from '../../core/http/content-api.service';
 import { NoticeEventFeedComponent } from './notice-event-feed.component';
@@ -10,7 +11,7 @@ describe('NoticeEventFeedComponent', () => {
   function setUp(): void {
     TestBed.configureTestingModule({
       imports: [NoticeEventFeedComponent],
-      providers: [{ provide: ContentApiService, useValue: contentApiSpy }],
+      providers: [provideRouter([]), { provide: ContentApiService, useValue: contentApiSpy }],
     });
     fixture = TestBed.createComponent(NoticeEventFeedComponent);
   }

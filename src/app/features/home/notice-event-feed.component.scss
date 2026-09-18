@@ -9,7 +9,21 @@
 
 h2 {
   font-size: var(--type-heading-2-font-size);
+  margin: 0;
+}
+
+.pweb-notice-event-feed__column-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
   margin-block-end: var(--space-4);
+
+  a {
+    color: var(--color-primary);
+    font-size: var(--type-body-sm-font-size);
+    white-space: nowrap;
+  }
 }
 
 .pweb-notice-event-feed__list {
@@ -22,10 +36,6 @@ h2 {
 }
 
 .pweb-notice-event-feed__card {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  padding: var(--space-4);
   border-radius: var(--radius-md);
   background: var(--color-surface);
   box-shadow: var(--shadow-0);
@@ -33,6 +43,15 @@ h2 {
 
   &:hover {
     box-shadow: var(--shadow-1);
+  }
+
+  > a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    color: inherit;
+    text-decoration: none;
   }
 }
 

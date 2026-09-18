@@ -1,0 +1,24 @@
+@if (notFound()) {
+  <p class="pweb-event-detail__status">{{ 'events.detail.notFound' | translate }}</p>
+} @else if (event(); as event) {
+  <article>
+    <h1 class="pweb-display">{{ event.title }}</h1>
+    <div class="pweb-event-detail__meta">
+      <time [attr.datetime]="event.startAt"
+        >{{ event.startAt | date: 'longDate' }}, {{ event.startAt | date: 'shortTime' }}</time
+      >
+      @if (event.locationLabel) {
+        <span class="pweb-event-detail__location">{{ event.locationLabel }}</span>
+      }
+    </div>
+    <p class="pweb-event-detail__body">{{ event.body }}</p>
+    <button type="button" class="pweb-event-detail__ics-button" (click)="downloadIcs()">
+      {{ 'events.detail.addToCalendar' | translate }}
+    </button>
+    <a class="pweb-event-detail__back" routerLink="/events">{{
+      'events.detail.backToList' | translate
+    }}</a>
+  </article>
+} @else {
+  <p class="pweb-event-detail__status">{{ 'common.loading' | translate }}</p>
+}

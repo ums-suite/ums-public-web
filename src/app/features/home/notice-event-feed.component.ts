@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ContentApiService } from '../../core/http/content-api.service';
 import type { EventDto, NoticeDto } from '../../core/http/content-api.models';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
@@ -12,15 +13,14 @@ const FEED_SIZE = 5;
  * /content/events` are already publish/expiry-window-filtered server-side (PWEB-4 research) --
  * this component trusts that at render time and doesn't re-filter client-side.
  *
- * Each item deliberately does NOT link to its own detail page yet: Notice/Event detail routes are
- * PWEB-17/PWEB-18 (not in this build pass) -- rendering a link to a route that doesn't exist would
- * be a real dead link, not a cosmetic gap, so these render as plain (non-navigable) editorial
- * cards until that ticket lands.
+ * Each card now links to its own detail page and each column to its own full list -- PWEB-17/18's
+ * `/notices/:id`/`/events/:id`/`/notices`/`/events` routes exist as of this batch, so the "plain,
+ * non-navigable card" posture this component shipped with (PWEB-10) no longer applies.
  */
 @Component({
   selector: 'pweb-notice-event-feed',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, TranslatePipe],
+  imports: [DatePipe, RouterLink, TranslatePipe],
   host: { class: 'pweb-notice-event-feed' },
   templateUrl: './notice-event-feed.component.html',
   styleUrl: './notice-event-feed.component.scss',

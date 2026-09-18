@@ -17,11 +17,19 @@ import { PWEB_DEFAULT_LOCALE, PwebLocale, isPwebLocale } from './locale.types';
  * hydration).
  *
  * Resolution order for the initial value:
- * 1. Server render (`REQUEST` present): parse the incoming `Cookie` header -- this is what makes
- *    the *first* server-rendered byte already correct for a returning visitor, deep-linked or not.
- * 2. Client (`REQUEST` absent): read `document.cookie` directly, so a page reload / non-SSR
- *    navigation still resolves correctly before this service's own signal is ever touched.
- * 3. Neither present (first-ever visit): {@link PWEB_DEFAULT_LOCALE}, per ADR-0011.
+ * 1. Server render (`REQUEST` present, `RenderMode.Server` only): parse the incoming `Cookie`
+ *    header -- this is what makes the *first* server-rendered byte already correct for a
+ *    returning visitor, deep-linked or not.
+ * 2. Client (`REQUEST` absent, running in the browser): read `document.cookie` directly, so a
+ *    page reload / non-SSR navigation still resolves correctly before this service's own signal
+ *    is ever touched.
+ * 3. Neither (first-ever visit, OR a `RenderMode.Prerender` route -- PWEB-21 -- where there is no
+ *    real visitor/request at all): {@link PWEB_DEFAULT_LOCALE}, per ADR-0011. `document.cookie` is
+ *    deliberately never read outside the browser: `@angular/ssr` only provides `REQUEST` under
+ *    `RenderMode.Server` (confirmed against its own source, see `app.routes.server.ts`'s doc
+ *    comment), and a bare Prerender build has no real `document.cookie` to read at all -- the
+ *    server's own DOM shim throws rather than returning an empty string, so this MUST be gated by
+ *    `isPlatformBrowser` rather than merely "`REQUEST` is falsy".
  */
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
@@ -42,8 +50,18 @@ export class LocaleService {
   }
 
   private readInitialLocale(): PwebLocale {
-    const cookieHeader = this.request ? this.request.headers.get('cookie') : this.document.cookie;
-    const stored = readCookieValue(cookieHeader, LOCALE_COOKIE_NAME);
+    if (this.request) {
+      const stored = readCookieValue(this.request.headers.get('cookie'), LOCALE_COOKIE_NAME);
+      return isPwebLocale(stored) ? stored : PWEB_DEFAULT_LOCALE;
+    }
+
+    if (!isPlatformBrowser(this.platformId)) {
+      // A RenderMode.Prerender route (PWEB-21): no REQUEST, no real visitor, and no real
+      // document.cookie to read -- the default is correct here, not a fallback of last resort.
+      return PWEB_DEFAULT_LOCALE;
+    }
+
+    const stored = readCookieValue(this.document.cookie, LOCALE_COOKIE_NAME);
     return isPwebLocale(stored) ? stored : PWEB_DEFAULT_LOCALE;
   }
 

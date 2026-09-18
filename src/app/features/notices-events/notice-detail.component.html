@@ -1,0 +1,41 @@
+@switch (state().kind) {
+  @case ('loading') {
+    <p class="pweb-notice-detail__status">{{ 'common.loading' | translate }}</p>
+  }
+  @case ('notFound') {
+    <p class="pweb-notice-detail__status">{{ 'notices.detail.notFound' | translate }}</p>
+  }
+  @case ('archived') {
+    <div class="pweb-notice-detail__archived">
+      <span class="pweb-notice-detail__badge">{{
+        'notices.detail.archivedBadge' | translate
+      }}</span>
+      <h1 class="pweb-display">{{ 'notices.detail.archivedTitle' | translate }}</h1>
+      <p>{{ 'notices.detail.archivedDescription' | translate }}</p>
+      <a routerLink="/notices">{{ 'notices.detail.backToList' | translate }}</a>
+    </div>
+  }
+  @case ('found') {
+    @if (notice(); as notice) {
+      <article>
+        @if (noLongerCurrent()) {
+          <span class="pweb-notice-detail__badge">{{
+            'notices.detail.archivedBadge' | translate
+          }}</span>
+        } @else if (notice.isUrgent) {
+          <span class="pweb-notice-detail__badge">{{
+            'notices.list.urgentBadge' | translate
+          }}</span>
+        }
+        <h1 class="pweb-display">{{ notice.title }}</h1>
+        @if (notice.publishedAt) {
+          <time [attr.datetime]="notice.publishedAt">{{
+            notice.publishedAt | date: 'longDate'
+          }}</time>
+        }
+        <p class="pweb-notice-detail__body">{{ notice.body }}</p>
+        <a routerLink="/notices">{{ 'notices.detail.backToList' | translate }}</a>
+      </article>
+    }
+  }
+}

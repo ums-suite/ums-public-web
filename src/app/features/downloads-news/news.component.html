@@ -1,0 +1,37 @@
+<header class="pweb-news__header">
+  <h1 class="pweb-display">{{ 'news.heading' | translate }}</h1>
+</header>
+
+<section aria-labelledby="pweb-news-gallery-heading">
+  <h2 id="pweb-news-gallery-heading" class="pweb-display">
+    {{ 'news.galleryHeading' | translate }}
+  </h2>
+
+  @if (loading()) {
+    <p class="pweb-news__status">{{ 'common.loading' | translate }}</p>
+  } @else if (banners().length === 0) {
+    <p class="pweb-news__status">{{ 'news.galleryEmpty' | translate }}</p>
+  } @else {
+    <div class="pweb-news__gallery">
+      @for (banner of banners(); track banner.id) {
+        <figure class="pweb-news__gallery-item">
+          <pweb-responsive-image
+            [src]="banner.imageUrl"
+            [alt]="banner.headline"
+            aspectRatio="4/3"
+          />
+          <figcaption>{{ banner.headline }}</figcaption>
+        </figure>
+      }
+    </div>
+  }
+</section>
+
+<section aria-labelledby="pweb-news-press-heading">
+  <h2 id="pweb-news-press-heading" class="pweb-display">{{ 'news.pressHeading' | translate }}</h2>
+  <ums-empty-state
+    illustration="illustration-empty-state"
+    [title]="'news.pressUnavailableTitle' | translate"
+    [description]="'news.pressUnavailableDescription' | translate"
+  />
+</section>

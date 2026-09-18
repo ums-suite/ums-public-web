@@ -1,0 +1,25 @@
+<header class="pweb-campus-information__header">
+  <h1 class="pweb-display">{{ 'campus.heading' | translate }}</h1>
+  <p>{{ 'campus.intro' | translate }}</p>
+</header>
+
+<section class="pweb-campus-information__facilities" aria-label="Facilities">
+  @for (facility of facilities; track facility.titleKey) {
+    <article class="pweb-campus-information__facility">
+      <h2>{{ facility.titleKey | translate }}</h2>
+      <p>{{ facility.bodyKey | translate }}</p>
+    </article>
+  }
+</section>
+
+<section class="pweb-campus-information__location" aria-labelledby="pweb-campus-location-heading">
+  <h2 id="pweb-campus-location-heading" class="pweb-display">
+    {{ 'campus.location.heading' | translate }}
+  </h2>
+  <p>{{ 'campus.location.address' | translate }}</p>
+  <p>
+    <a routerLink="/downloads">{{ 'campus.location.downloadsLink' | translate }}</a>
+    &middot;
+    <a routerLink="/contact">{{ 'campus.location.contactLink' | translate }}</a>
+  </p>
+</section>

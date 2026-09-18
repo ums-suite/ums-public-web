@@ -1,0 +1,100 @@
+<header class="pweb-contact-form__header">
+  <h1 class="pweb-display">{{ 'contact.heading' | translate }}</h1>
+  <p>{{ 'contact.intro' | translate }}</p>
+</header>
+
+@if (outcome()?.kind === 'accepted') {
+  <div class="pweb-contact-form__outcome pweb-contact-form__outcome--success" role="status">
+    <p>{{ 'contact.outcome.accepted' | translate }}</p>
+    <button type="button" class="pweb-contact-form__link-button" (click)="startNewInquiry()">
+      {{ 'contact.sendAnother' | translate }}
+    </button>
+  </div>
+} @else {
+  @if (outcome(); as result) {
+    <div class="pweb-contact-form__outcome pweb-contact-form__outcome--error" role="alert">
+      @switch (result.kind) {
+        @case ('rateLimited') {
+          <p>{{ 'contact.outcome.rateLimited' | translate }}</p>
+        }
+        @case ('captchaRequired') {
+          <p>{{ 'contact.outcome.captchaRequired' | translate }}</p>
+        }
+        @case ('invalid') {
+          <p>{{ result.message }}</p>
+        }
+        @case ('unavailable') {
+          <p>{{ 'contact.outcome.unavailable' | translate }}</p>
+        }
+      }
+    </div>
+  }
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="pweb-contact-form__field">
+      <label for="pweb-contact-name">{{ 'contact.name' | translate }}</label>
+      <ums-input
+        id="pweb-contact-name"
+        [value]="name()"
+        (valueChange)="name.set($event)"
+        [required]="true"
+        [invalid]="!!errors().name"
+        [disabled]="submitting()"
+      />
+      @if (errors().name) {
+        <span class="pweb-contact-form__error">{{ errors().name! | translate }}</span>
+      }
+    </div>
+
+    <div class="pweb-contact-form__field">
+      <label for="pweb-contact-email">{{ 'contact.email' | translate }}</label>
+      <ums-input
+        id="pweb-contact-email"
+        type="email"
+        [value]="email()"
+        (valueChange)="email.set($event)"
+        [required]="true"
+        [invalid]="!!errors().email"
+        [disabled]="submitting()"
+      />
+      @if (errors().email) {
+        <span class="pweb-contact-form__error">{{ errors().email! | translate }}</span>
+      }
+    </div>
+
+    <div class="pweb-contact-form__field">
+      <label for="pweb-contact-subject">{{ 'contact.subject' | translate }}</label>
+      <ums-input
+        id="pweb-contact-subject"
+        [value]="subject()"
+        (valueChange)="subject.set($event)"
+        [required]="true"
+        [invalid]="!!errors().subject"
+        [disabled]="submitting()"
+      />
+      @if (errors().subject) {
+        <span class="pweb-contact-form__error">{{ errors().subject! | translate }}</span>
+      }
+    </div>
+
+    <div class="pweb-contact-form__field">
+      <label for="pweb-contact-message">{{ 'contact.message' | translate }}</label>
+      <ums-textarea
+        id="pweb-contact-message"
+        [value]="message()"
+        (valueChange)="message.set($event)"
+        [required]="true"
+        [invalid]="!!errors().message"
+        [disabled]="submitting()"
+        [rows]="6"
+      />
+      @if (errors().message) {
+        <span class="pweb-contact-form__error">{{ errors().message! | translate }}</span>
+      }
+    </div>
+
+    <ums-button type="submit" [disabled]="submitting()" [loading]="submitting()">
+      {{ 'contact.submit' | translate }}
+    </ums-button>
+  </form>
+}

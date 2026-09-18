@@ -1,0 +1,66 @@
+<header class="pweb-search-page__header">
+  <h1 class="pweb-display">
+    {{ q() ? ('search.resultsHeading' | translate: { query: q() }) : ('nav.search' | translate) }}
+  </h1>
+</header>
+
+@if (results$() | async; as results) {
+  @if (!q()) {
+    <p class="pweb-search-page__status">{{ 'search.startTyping' | translate }}</p>
+  } @else if (!hasResults(results)) {
+    <div class="pweb-search-page__empty">
+      <h2>{{ 'search.emptyTitle' | translate }}</h2>
+      <p>{{ 'search.emptyDescription' | translate }}</p>
+    </div>
+  } @else {
+    @if (results.programs.length) {
+      <section aria-labelledby="pweb-search-programs-heading">
+        <h2 id="pweb-search-programs-heading">{{ 'search.groupPrograms' | translate }}</h2>
+        <ul>
+          @for (item of results.programs; track item.id) {
+            <li>
+              <a [routerLink]="['/programs', item.id]">{{ item.title }}</a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+    @if (results.notices.length) {
+      <section aria-labelledby="pweb-search-notices-heading">
+        <h2 id="pweb-search-notices-heading">{{ 'search.groupNotices' | translate }}</h2>
+        <ul>
+          @for (item of results.notices; track item.id) {
+            <li>
+              <a [routerLink]="['/notices', item.id]">{{ item.title }}</a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+    @if (results.events.length) {
+      <section aria-labelledby="pweb-search-events-heading">
+        <h2 id="pweb-search-events-heading">{{ 'search.groupEvents' | translate }}</h2>
+        <ul>
+          @for (item of results.events; track item.id) {
+            <li>
+              <a [routerLink]="['/events', item.id]">{{ item.title }}</a>
+              <time [attr.datetime]="item.startAt">{{ item.startAt | date: 'mediumDate' }}</time>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+    @if (results.pages.length) {
+      <section aria-labelledby="pweb-search-pages-heading">
+        <h2 id="pweb-search-pages-heading">{{ 'search.groupPages' | translate }}</h2>
+        <ul>
+          @for (item of results.pages; track item.path) {
+            <li>
+              <a [routerLink]="item.path">{{ item.title }}</a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  }
+}
