@@ -31,8 +31,13 @@ export class LocaleService {
 
   readonly locale = signal<PwebLocale>(this.readInitialLocale());
 
+  constructor() {
+    this.document.documentElement.lang = this.locale();
+  }
+
   setLocale(locale: PwebLocale): void {
     this.locale.set(locale);
+    this.document.documentElement.lang = locale;
     this.writeClientCookie(locale);
   }
 

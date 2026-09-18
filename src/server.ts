@@ -64,6 +64,10 @@ app.use((req, res, next) => {
 /**
  * Start the server if this module is the main entry point, or it is ran via PM2.
  * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ *
+ * The build's `security.allowedHosts` (angular.json) is `["*"]` since no production hostname is
+ * decided yet -- a real deployment should instead set the `NG_ALLOWED_HOSTS` env var (comma-
+ * separated), which @angular/ssr reads ahead of this static list, to the actual public hostname(s).
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
