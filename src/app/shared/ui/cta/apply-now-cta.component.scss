@@ -1,0 +1,40 @@
+// A plain <a>, not <ums-button>, styled to read as a primary button (design-system's own Button
+// component renders a native <button> internally with no href support -- nesting it inside an
+// <a> would create two overlapping interactive elements, a real accessibility defect this avoids
+// entirely by styling the anchor itself from tokens).
+.pweb-apply-now-cta__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-family-base);
+  font-weight: var(--type-label-font-weight);
+  text-decoration: none;
+  box-shadow: var(--shadow-1);
+  transition: background var(--motion-fast) var(--ease-standard);
+
+  &:hover {
+    background: var(--color-primary-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--shadow-focus);
+    outline-offset: 2px;
+  }
+}
+
+.pweb-apply-now-cta__notice {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--type-body-sm-font-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pweb-apply-now-cta__button {
+    transition: none;
+  }
+}

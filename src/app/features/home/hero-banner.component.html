@@ -1,0 +1,31 @@
+@if (banner(); as activeBanner) {
+  <pweb-responsive-image
+    class="pweb-hero-banner__image"
+    [src]="activeBanner.imageUrl"
+    [alt]="activeBanner.headline"
+    aspectRatio="21/9"
+    [priority]="true"
+  />
+  <div class="pweb-hero-banner__overlay">
+    <h1 class="pweb-hero-banner__headline pweb-display">{{ activeBanner.headline }}</h1>
+    @if (activeBanner.linkUrl) {
+      <a class="pweb-hero-banner__cta" [href]="activeBanner.linkUrl">{{
+        'home.hero.explore' | translate
+      }}</a>
+    } @else {
+      <a class="pweb-hero-banner__cta" routerLink="/programs">{{
+        'home.hero.explore' | translate
+      }}</a>
+    }
+  </div>
+} @else {
+  <div class="pweb-hero-banner__fallback">
+    <h1 class="pweb-hero-banner__headline pweb-display">
+      {{ 'home.hero.fallbackHeadline' | translate }}
+    </h1>
+    <p class="pweb-hero-banner__subhead">{{ 'home.hero.fallbackSubhead' | translate }}</p>
+    <a class="pweb-hero-banner__cta" routerLink="/programs">{{
+      'home.hero.explore' | translate
+    }}</a>
+  </div>
+}

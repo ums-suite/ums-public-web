@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  max-inline-size: 90rem;
+  margin-inline: auto;
+  padding: var(--space-7) var(--space-5);
+}
+
+.pweb-program-catalog__header {
+  margin-block-end: var(--space-6);
+
+  h1 {
+    font-size: var(--type-display-2-font-size);
+    margin: 0 0 var(--space-2);
+  }
+}
+
+.pweb-program-catalog__count {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.pweb-program-catalog__layout {
+  display: grid;
+  grid-template-columns: 16rem 1fr;
+  gap: var(--space-6);
+
+  @media (width <= 48rem) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pweb-program-catalog__filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pweb-program-catalog__filter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--type-body-sm-font-size);
+
+  select {
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+}
+
+.pweb-program-catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.pweb-program-catalog__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-0);
+  text-decoration: none;
+  color: var(--color-text);
+  transition:
+    box-shadow var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+
+  h2 {
+    font-size: var(--type-heading-3-font-size);
+    margin: 0;
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-2);
+    transform: translateY(-2px);
+  }
+}
+
+.pweb-program-catalog__badge {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: var(--type-body-sm-font-size);
+}
+
+.pweb-program-catalog__status {
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pweb-program-catalog__card {
+    transition: none;
+  }
+}

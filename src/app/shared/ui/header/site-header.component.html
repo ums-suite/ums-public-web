@@ -1,0 +1,54 @@
+<a class="pweb-site-header__skip-link" href="#main-content">{{
+  'header.skipToContent' | translate
+}}</a>
+
+<div class="pweb-site-header__inner">
+  <a class="pweb-site-header__brand pweb-display" routerLink="/">UMS</a>
+
+  <nav class="pweb-site-header__nav" aria-label="Primary">
+    <a
+      routerLink="/"
+      routerLinkActive="pweb-site-header__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      {{ 'nav.home' | translate }}
+    </a>
+    <a routerLink="/programs" routerLinkActive="pweb-site-header__link--active">
+      {{ 'nav.programs' | translate }}
+    </a>
+  </nav>
+
+  <div class="pweb-site-header__controls">
+    @if (session.isAuthenticated()) {
+      <span class="pweb-site-header__account">
+        {{ 'header.account.loggedInAs' | translate: { role: session.primaryRole() ?? '' } }}
+      </span>
+    }
+
+    <button type="button" class="pweb-site-header__control" (click)="toggleLocale()">
+      {{
+        locale.locale() === 'en' ? ('locale.bengali' | translate) : ('locale.english' | translate)
+      }}
+    </button>
+
+    <button
+      type="button"
+      class="pweb-site-header__control"
+      [attr.aria-label]="
+        'theme.toggleLabel'
+          | translate
+            : {
+                mode:
+                  theme.resolvedTheme() === 'light'
+                    ? ('theme.dark' | translate)
+                    : ('theme.light' | translate),
+              }
+      "
+      (click)="toggleTheme()"
+    >
+      {{
+        theme.resolvedTheme() === 'light' ? ('theme.dark' | translate) : ('theme.light' | translate)
+      }}
+    </button>
+  </div>
+</div>

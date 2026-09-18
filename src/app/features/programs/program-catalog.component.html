@@ -1,0 +1,54 @@
+<header class="pweb-program-catalog__header">
+  <h1 class="pweb-display">{{ 'programs.catalog.heading' | translate }}</h1>
+  <p class="pweb-program-catalog__count">
+    {{ 'programs.catalog.resultCount' | translate: { count: resultCount() } }}
+  </p>
+</header>
+
+<div class="pweb-program-catalog__layout">
+  <aside class="pweb-program-catalog__filters" aria-label="Filters">
+    <label class="pweb-program-catalog__filter">
+      <span>{{ 'programs.catalog.filterFaculty' | translate }}</span>
+      <select (change)="onFacultyChange($event)">
+        <option value="">{{ 'programs.catalog.allFaculties' | translate }}</option>
+        @for (faculty of store.faculties(); track faculty.id) {
+          <option [value]="faculty.id" [selected]="faculty.id === store.selectedFacultyId()">
+            {{ faculty.localizedName || faculty.name }}
+          </option>
+        }
+      </select>
+    </label>
+
+    @if (store.departments().length) {
+      <label class="pweb-program-catalog__filter">
+        <span>{{ 'programs.catalog.filterDepartment' | translate }}</span>
+        <select (change)="onDepartmentChange($event)">
+          <option value="">{{ 'programs.catalog.allDepartments' | translate }}</option>
+          @for (department of store.departments(); track department.id) {
+            <option
+              [value]="department.id"
+              [selected]="department.id === store.selectedDepartmentId()"
+            >
+              {{ department.localizedName || department.name }}
+            </option>
+          }
+        </select>
+      </label>
+    }
+  </aside>
+
+  <section class="pweb-program-catalog__grid" aria-live="polite">
+    @if (store.loading()) {
+      <p class="pweb-program-catalog__status">{{ 'common.loading' | translate }}</p>
+    } @else if (resultCount() === 0) {
+      <p class="pweb-program-catalog__status">{{ 'programs.catalog.empty' | translate }}</p>
+    } @else {
+      @for (program of store.programs(); track program.id) {
+        <a class="pweb-program-catalog__card" [routerLink]="['/programs', program.id]">
+          <h2 class="pweb-display">{{ program.localizedName || program.name }}</h2>
+          <span class="pweb-program-catalog__badge">{{ program.status }}</span>
+        </a>
+      }
+    }
+  </section>
+</div>

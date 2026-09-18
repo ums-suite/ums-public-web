@@ -1,0 +1,34 @@
+// PWEB-7 / Domain Invariant #5 -- the host itself reserves the aspect-ratio box (set inline via
+// [style.aspect-ratio] in the component) so layout never shifts once the image finishes loading.
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+}
+
+img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-standard);
+}
+
+// prefers-reduced-motion: skip the fade transition entirely, not just shorten it.
+@media (prefers-reduced-motion: reduce) {
+  img {
+    transition: none;
+  }
+}
+
+:host(.pweb-responsive-image--loaded) img {
+  opacity: 1;
+}
+
+// A failed load keeps the brand-color placeholder visible forever instead of a broken-image icon.
+:host(.pweb-responsive-image--errored) img {
+  display: none;
+}
