@@ -102,8 +102,22 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/downloads-news/news.component').then((m) => m.NewsComponent),
   },
-  // Search/Contact routes are added incrementally as each of PWEB-24/25 lands later in this same
-  // batch (see app.routes.ts's own git history) -- deliberately not stubbed out ahead of the
-  // component existing, so `ng build`'s module resolution never points a lazy `import()` at a
-  // file that doesn't exist yet.
+  {
+    // PWEB-24: SSR-crawlable per-query search results page -- `withComponentInputBinding()`
+    // (app.config.ts) binds this route's own `?q=` straight to SearchPageComponent's `q` input.
+    path: 'search',
+    data: { cacheControl: 'no-store' },
+    loadComponent: () =>
+      import('./features/search-contact/search-page.component').then((m) => m.SearchPageComponent),
+  },
+  {
+    // PWEB-25: the app's one anonymous write -- never cached (design-decisions.md's idempotency
+    // token is per-attempt, not something a cached response should ever be allowed to replay).
+    path: 'contact',
+    data: { cacheControl: 'no-store' },
+    loadComponent: () =>
+      import('./features/search-contact/contact-form.component').then(
+        (m) => m.ContactFormComponent,
+      ),
+  },
 ];

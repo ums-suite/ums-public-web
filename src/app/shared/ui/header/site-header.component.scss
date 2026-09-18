@@ -63,7 +63,8 @@
   color: var(--color-text-muted);
 }
 
-.pweb-site-header__control {
+.pweb-site-header__control,
+.pweb-site-header__search-button {
   background: none;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);

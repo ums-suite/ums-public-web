@@ -1,0 +1,94 @@
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -- a backdrop-click-to-dismiss affordance is mouse/touch-only by nature; the equivalent keyboard dismissal is the host's own (keydown.escape) handler, not a focusable role on the backdrop itself. -->
+<div class="pweb-search-overlay__backdrop" (click)="onBackdropClick($event)">
+  <div class="pweb-search-overlay__panel">
+    <div class="pweb-search-overlay__input-row">
+      <input
+        #searchInput
+        type="search"
+        class="pweb-search-overlay__input"
+        [attr.aria-label]="'nav.search' | translate"
+        [placeholder]="'search.placeholder' | translate"
+        (input)="onQueryInput($event)"
+      />
+      <button type="button" class="pweb-search-overlay__close" (click)="close()">&times;</button>
+    </div>
+
+    @if (query().trim()) {
+      @if (results$ | async; as results) {
+        @if (!hasAnySearchResults(results)) {
+          <div class="pweb-search-overlay__empty">
+            <h2>{{ 'search.emptyTitle' | translate }}</h2>
+            <p>{{ 'search.emptyDescription' | translate }}</p>
+          </div>
+        } @else {
+          <div class="pweb-search-overlay__groups">
+            @if (results.programs.length) {
+              <section>
+                <h3>{{ 'search.groupPrograms' | translate }}</h3>
+                <ul>
+                  @for (item of results.programs; track item.id) {
+                    <li>
+                      <a [routerLink]="['/programs', item.id]" (click)="close()">{{
+                        item.title
+                      }}</a>
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (results.notices.length) {
+              <section>
+                <h3>{{ 'search.groupNotices' | translate }}</h3>
+                <ul>
+                  @for (item of results.notices; track item.id) {
+                    <li>
+                      <a [routerLink]="['/notices', item.id]" (click)="close()">{{ item.title }}</a>
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (results.events.length) {
+              <section>
+                <h3>{{ 'search.groupEvents' | translate }}</h3>
+                <ul>
+                  @for (item of results.events; track item.id) {
+                    <li>
+                      <a [routerLink]="['/events', item.id]" (click)="close()">{{ item.title }}</a>
+                      <time [attr.datetime]="item.startAt">{{
+                        item.startAt | date: 'mediumDate'
+                      }}</time>
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (results.pages.length) {
+              <section>
+                <h3>{{ 'search.groupPages' | translate }}</h3>
+                <ul>
+                  @for (item of results.pages; track item.path) {
+                    <li>
+                      <a [routerLink]="item.path" (click)="close()">{{ item.title }}</a>
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+          </div>
+
+          <a
+            class="pweb-search-overlay__view-all"
+            [routerLink]="['/search']"
+            [queryParams]="{ q: query() }"
+            (click)="close()"
+          >
+            {{ 'search.viewAllResults' | translate }}
+          </a>
+        }
+      }
+    } @else {
+      <p class="pweb-search-overlay__hint">{{ 'search.startTyping' | translate }}</p>
+    }
+  </div>
+</div>

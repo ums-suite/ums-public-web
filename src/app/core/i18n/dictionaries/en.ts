@@ -116,4 +116,36 @@ export const EN_DICTIONARY: Record<string, string> = {
   'news.pressUnavailableTitle': 'Press coverage is not yet available',
   'news.pressUnavailableDescription':
     'We are working on bringing press and media coverage to this site. Please check back soon.',
+  'search.placeholder': 'Search programs, notices, events, and pages…',
+  'search.viewAllResults': 'View all results',
+  'search.groupPrograms': 'Programs',
+  'search.groupNotices': 'Notices',
+  'search.groupEvents': 'Events',
+  'search.groupPages': 'Pages',
+  'search.emptyTitle': 'No results found',
+  'search.emptyDescription':
+    'Try a different search term, or browse Programs, Notices, Events, or Campus Information from the menu above.',
+  'search.startTyping': 'Start typing to search the site.',
+  'search.resultsHeading': 'Search results for "{query}"',
+  'contact.heading': 'Contact us',
+  'contact.intro': "Have a question? Send us a message and we'll get back to you.",
+  'contact.name': 'Name',
+  'contact.email': 'Email',
+  'contact.subject': 'Subject',
+  'contact.message': 'Message',
+  'contact.submit': 'Send message',
+  'contact.sendAnother': 'Send another message',
+  'contact.outcome.accepted': "Thank you for your message. We'll get back to you soon.",
+  'contact.outcome.rateLimited':
+    'You have sent several messages recently. Please try again shortly.',
+  'contact.outcome.captchaRequired': 'Please try submitting again to confirm you are not a robot.',
+  'contact.outcome.unavailable':
+    'This form is temporarily unavailable. Please email us directly in the meantime.',
+  'contact.errors.nameRequired': 'Please enter your name.',
+  'contact.errors.emailRequired': 'Please enter your email address.',
+  'contact.errors.emailInvalid': 'Please enter a valid email address.',
+  'contact.errors.subjectRequired': 'Please enter a subject.',
+  'contact.errors.messageRequired': 'Please enter a message.',
+  'contact.errors.messageTooShort':
+    'Please enter a more detailed message (at least 10 characters).',
 };

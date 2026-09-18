@@ -37,6 +37,9 @@
     <a routerLink="/news" routerLinkActive="pweb-site-header__link--active">
       {{ 'nav.news' | translate }}
     </a>
+    <a routerLink="/contact" routerLinkActive="pweb-site-header__link--active">
+      {{ 'nav.contact' | translate }}
+    </a>
   </nav>
 
   <div class="pweb-site-header__controls">
@@ -45,6 +48,15 @@
         {{ 'header.account.loggedInAs' | translate: { role: session.primaryRole() ?? '' } }}
       </span>
     }
+
+    <button
+      type="button"
+      class="pweb-site-header__search-button"
+      [attr.aria-label]="'nav.search' | translate"
+      (click)="openSearch()"
+    >
+      {{ 'nav.search' | translate }}
+    </button>
 
     <button type="button" class="pweb-site-header__control" (click)="toggleLocale()">
       {{
@@ -73,3 +85,7 @@
     </button>
   </div>
 </div>
+
+@if (searchOpen()) {
+  <pweb-search-overlay (closed)="closeSearch()" />
+}
