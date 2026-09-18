@@ -1,0 +1,28 @@
+<header class="pweb-downloads__header">
+  <h1 class="pweb-display">{{ 'downloads.heading' | translate }}</h1>
+</header>
+
+@if (loading()) {
+  <p class="pweb-downloads__status">{{ 'common.loading' | translate }}</p>
+} @else if (groups().length === 0) {
+  <p class="pweb-downloads__status">{{ 'downloads.empty' | translate }}</p>
+} @else {
+  @for (group of groups(); track group.category) {
+    <section
+      class="pweb-downloads__group"
+      [attr.aria-labelledby]="'pweb-downloads-' + group.category"
+    >
+      <h2 [id]="'pweb-downloads-' + group.category">{{ group.category }}</h2>
+      <ul class="pweb-downloads__items">
+        @for (item of group.items; track item.id) {
+          <li class="pweb-downloads__item">
+            <span class="pweb-downloads__title">{{ item.title }}</span>
+            <span class="pweb-downloads__unavailable">{{
+              'downloads.linkUnavailable' | translate
+            }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

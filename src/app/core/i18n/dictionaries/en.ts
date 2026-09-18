@@ -106,4 +106,14 @@ export const EN_DICTIONARY: Record<string, string> = {
   'campus.location.address': 'University Management Suite, Main Campus.',
   'campus.location.downloadsLink': 'Campus maps & forms',
   'campus.location.contactLink': 'Contact us',
+  'downloads.heading': 'Downloads',
+  'downloads.empty': 'No downloads are published yet.',
+  'downloads.linkUnavailable': 'Download link coming soon',
+  'news.heading': 'News & media',
+  'news.galleryHeading': 'Campus highlights',
+  'news.galleryEmpty': 'No campus highlights are published yet.',
+  'news.pressHeading': 'Press coverage',
+  'news.pressUnavailableTitle': 'Press coverage is not yet available',
+  'news.pressUnavailableDescription':
+    'We are working on bringing press and media coverage to this site. Please check back soon.',
 };

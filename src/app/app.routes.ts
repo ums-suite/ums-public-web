@@ -90,8 +90,20 @@ export const routes: Routes = [
         (m) => m.CampusInformationComponent,
       ),
   },
-  // Downloads/News and Search/Contact routes are added incrementally as each of PWEB-22..25 lands
-  // later in this same batch (see app.routes.ts's own git history) -- deliberately not stubbed out
-  // ahead of the component existing, so `ng build`'s module resolution never points a lazy
-  // `import()` at a file that doesn't exist yet.
+  {
+    path: 'downloads',
+    data: { cacheControl: 'editorial-page' },
+    loadComponent: () =>
+      import('./features/downloads-news/downloads.component').then((m) => m.DownloadsComponent),
+  },
+  {
+    path: 'news',
+    data: { cacheControl: 'editorial-page' },
+    loadComponent: () =>
+      import('./features/downloads-news/news.component').then((m) => m.NewsComponent),
+  },
+  // Search/Contact routes are added incrementally as each of PWEB-24/25 lands later in this same
+  // batch (see app.routes.ts's own git history) -- deliberately not stubbed out ahead of the
+  // component existing, so `ng build`'s module resolution never points a lazy `import()` at a
+  // file that doesn't exist yet.
 ];
