@@ -1,19 +1,24 @@
 <section class="pweb-notice-event-feed__column" aria-labelledby="pweb-notices-heading">
-  <h2 id="pweb-notices-heading" class="pweb-display">{{ 'home.notices.heading' | translate }}</h2>
+  <div class="pweb-notice-event-feed__column-header">
+    <h2 id="pweb-notices-heading" class="pweb-display">{{ 'home.notices.heading' | translate }}</h2>
+    <a routerLink="/notices">{{ 'home.viewAll' | translate }}</a>
+  </div>
 
   @if (notices().length) {
     <ul class="pweb-notice-event-feed__list">
       @for (notice of notices(); track notice.id) {
         <li class="pweb-notice-event-feed__card">
-          @if (notice.isUrgent) {
-            <span class="pweb-notice-event-feed__badge">!</span>
-          }
-          <span class="pweb-notice-event-feed__title">{{ notice.title }}</span>
-          @if (notice.publishedAt) {
-            <time [attr.datetime]="notice.publishedAt">{{
-              notice.publishedAt | date: 'mediumDate'
-            }}</time>
-          }
+          <a [routerLink]="['/notices', notice.id]">
+            @if (notice.isUrgent) {
+              <span class="pweb-notice-event-feed__badge">!</span>
+            }
+            <span class="pweb-notice-event-feed__title">{{ notice.title }}</span>
+            @if (notice.publishedAt) {
+              <time [attr.datetime]="notice.publishedAt">{{
+                notice.publishedAt | date: 'mediumDate'
+              }}</time>
+            }
+          </a>
         </li>
       }
     </ul>
@@ -23,17 +28,22 @@
 </section>
 
 <section class="pweb-notice-event-feed__column" aria-labelledby="pweb-events-heading">
-  <h2 id="pweb-events-heading" class="pweb-display">{{ 'home.events.heading' | translate }}</h2>
+  <div class="pweb-notice-event-feed__column-header">
+    <h2 id="pweb-events-heading" class="pweb-display">{{ 'home.events.heading' | translate }}</h2>
+    <a routerLink="/events">{{ 'home.viewAll' | translate }}</a>
+  </div>
 
   @if (events().length) {
     <ul class="pweb-notice-event-feed__list">
       @for (event of events(); track event.id) {
         <li class="pweb-notice-event-feed__card">
-          <span class="pweb-notice-event-feed__title">{{ event.title }}</span>
-          <time [attr.datetime]="event.startAt">{{ event.startAt | date: 'mediumDate' }}</time>
-          @if (event.locationLabel) {
-            <span class="pweb-notice-event-feed__location">{{ event.locationLabel }}</span>
-          }
+          <a [routerLink]="['/events', event.id]">
+            <span class="pweb-notice-event-feed__title">{{ event.title }}</span>
+            <time [attr.datetime]="event.startAt">{{ event.startAt | date: 'mediumDate' }}</time>
+            @if (event.locationLabel) {
+              <span class="pweb-notice-event-feed__location">{{ event.locationLabel }}</span>
+            }
+          </a>
         </li>
       }
     </ul>

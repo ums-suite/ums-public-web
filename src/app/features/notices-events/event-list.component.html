@@ -1,0 +1,25 @@
+<header class="pweb-event-list__header">
+  <h1 class="pweb-display">{{ 'events.list.heading' | translate }}</h1>
+</header>
+
+<section aria-live="polite">
+  @if (loading()) {
+    <p class="pweb-event-list__status">{{ 'common.loading' | translate }}</p>
+  } @else if (events().length === 0) {
+    <p class="pweb-event-list__status">{{ 'events.list.empty' | translate }}</p>
+  } @else {
+    <ul class="pweb-event-list__items">
+      @for (event of events(); track event.id) {
+        <li>
+          <a class="pweb-event-list__card" [routerLink]="['/events', event.id]">
+            <time [attr.datetime]="event.startAt">{{ event.startAt | date: 'mediumDate' }}</time>
+            <h2>{{ event.title }}</h2>
+            @if (event.locationLabel) {
+              <span class="pweb-event-list__location">{{ event.locationLabel }}</span>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</section>

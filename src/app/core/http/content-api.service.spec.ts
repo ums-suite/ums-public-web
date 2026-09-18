@@ -64,4 +64,50 @@ describe('ContentApiService', () => {
     expect(req.request.method).toBe('GET');
     req.flush({ items: [], totalCount: 0, skip: 0, take: 5 });
   });
+
+  it('fetches a single notice by id', () => {
+    service.getNotice('n1').subscribe();
+    const req = httpMock.expectOne('http://localhost:8080/api/v1/content/notices/n1');
+    expect(req.request.method).toBe('GET');
+    req.flush({ id: 'n1' });
+  });
+
+  it('surfaces the bare 410 an Archived notice returns, preserving the status code', async () => {
+    let caught: unknown;
+    service.getNotice('n1').subscribe({ error: (error: unknown) => (caught = error) });
+
+    const req = httpMock.expectOne('http://localhost:8080/api/v1/content/notices/n1');
+    req.flush('Gone', { status: 410, statusText: 'Gone' });
+
+    expect((caught as { status: number }).status).toBe(410);
+  });
+
+  it('fetches a single event by id', () => {
+    service.getEvent('e1').subscribe();
+    const req = httpMock.expectOne('http://localhost:8080/api/v1/content/events/e1');
+    expect(req.request.method).toBe('GET');
+    req.flush({ id: 'e1' });
+  });
+
+  it('lists downloads with an optional category facet', () => {
+    service.listDownloads({ category: 'Forms', skip: 0, take: 20 }).subscribe();
+    const req = httpMock.expectOne(
+      (r) =>
+        r.url === 'http://localhost:8080/api/v1/content/downloads' &&
+        r.params.get('category') === 'Forms' &&
+        r.params.get('skip') === '0' &&
+        r.params.get('take') === '20',
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush({ items: [], totalCount: 0, skip: 0, take: 20 });
+  });
+
+  it('lists downloads with no category param sent when omitted', () => {
+    service.listDownloads({ skip: 0, take: 20 }).subscribe();
+    const req = httpMock.expectOne(
+      (r) => r.url === 'http://localhost:8080/api/v1/content/downloads',
+    );
+    expect(req.request.params.has('category')).toBeFalse();
+    req.flush({ items: [], totalCount: 0, skip: 0, take: 20 });
+  });
 });
