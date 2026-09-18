@@ -1,0 +1,89 @@
+:host {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  min-block-size: 32rem;
+  overflow: hidden;
+  background: var(--color-primary);
+}
+
+.pweb-hero-banner__image {
+  position: absolute;
+  inset: 0;
+  block-size: 100%;
+  border-radius: 0;
+  transition: transform var(--motion-hero) var(--ease-standard);
+}
+
+// Slow ambient scale -- requirement-spec.md §7 "a soft parallax or crossfade, never an aggressive
+// auto-advancing carousel". Only applied when MotionService confirms the visitor has not asked
+// for reduced motion (host class, set from the live media query, not assumed).
+:host(.pweb-hero-banner--ambient-motion) .pweb-hero-banner__image {
+  animation: pweb-hero-ambient-scale 24s ease-in-out infinite alternate;
+}
+
+@keyframes pweb-hero-ambient-scale {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.pweb-hero-banner__overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  block-size: 100%;
+  min-block-size: 32rem;
+  padding: var(--space-8) var(--space-6);
+  background: linear-gradient(to top, rgb(0 0 0 / 55%), transparent 60%);
+  color: var(--color-on-primary);
+}
+
+.pweb-hero-banner__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-block-size: 32rem;
+  padding: var(--space-8) var(--space-6);
+  color: var(--color-on-primary);
+}
+
+.pweb-hero-banner__headline {
+  font-size: var(--type-display-1-font-size);
+  line-height: var(--type-display-1-line-height);
+  max-inline-size: 40ch;
+  margin: 0 0 var(--space-4);
+}
+
+.pweb-hero-banner__subhead {
+  max-inline-size: 50ch;
+  margin: 0 0 var(--space-5);
+  font-size: var(--type-body-lg-font-size);
+}
+
+.pweb-hero-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-on-primary);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--type-label-font-weight);
+  box-shadow: var(--shadow-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pweb-hero-banner__image {
+    transition: none;
+  }
+}

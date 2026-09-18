@@ -1,0 +1,9 @@
+@if (state().kind === 'open') {
+  <a class="pweb-apply-now-cta__button" [href]="applyHref">{{ 'cta.applyNow' | translate }}</a>
+} @else if (state().kind === 'upcoming') {
+  <p class="pweb-apply-now-cta__notice">
+    {{ 'cta.admissionOpensOn' | translate: { date: formattedOpenDate($any(state()).opensAt) } }}
+  </p>
+} @else {
+  <p class="pweb-apply-now-cta__notice">{{ 'cta.applicationsClosed' | translate }}</p>
+}
