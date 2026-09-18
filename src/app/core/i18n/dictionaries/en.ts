@@ -79,4 +79,31 @@ export const EN_DICTIONARY: Record<string, string> = {
   'calendar.unavailableTitle': 'Academic calendar is not yet available',
   'calendar.unavailableDescription':
     'A printable academic calendar for the current session is coming soon. Please check with your department for key dates in the meantime.',
+  'research.showcase.heading': 'Research & publications',
+  'research.showcase.intro':
+    'A showcase of publications, funded research, and institutional repository deposits across the university.',
+  'research.showcase.publicationsHeading': 'Publications',
+  'research.showcase.publicationsEmpty': 'No publications are publicly listed yet.',
+  'research.showcase.grantsHeading': 'Funded research',
+  'research.showcase.grantsEmpty': 'No funded research is publicly listed yet.',
+  'research.showcase.repositoryHeading': 'Institutional repository',
+  'research.showcase.repositoryEmpty': 'No repository deposits are publicly listed yet.',
+  'campus.heading': 'Campus information',
+  'campus.intro': 'Facilities, location, and everything you need to know before you visit.',
+  'campus.facilities.library.title': 'Library',
+  'campus.facilities.library.body':
+    'A modern library with extensive print and digital collections, quiet study spaces, and research support.',
+  'campus.facilities.labs.title': 'Laboratories',
+  'campus.facilities.labs.body':
+    'Well-equipped teaching and research laboratories across the sciences and engineering.',
+  'campus.facilities.residences.title': 'Residences',
+  'campus.facilities.residences.body':
+    'On-campus residential halls for students, close to academic buildings.',
+  'campus.facilities.sports.title': 'Sports & recreation',
+  'campus.facilities.sports.body':
+    'Playing fields, an indoor gymnasium, and recreational facilities for all students.',
+  'campus.location.heading': 'Find us',
+  'campus.location.address': 'University Management Suite, Main Campus.',
+  'campus.location.downloadsLink': 'Campus maps & forms',
+  'campus.location.contactLink': 'Contact us',
 };

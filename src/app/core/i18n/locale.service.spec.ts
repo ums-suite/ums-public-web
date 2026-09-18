@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { REQUEST } from '@angular/core';
+import { PLATFORM_ID, REQUEST } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LOCALE_COOKIE_NAME } from './locale-cookie.util';
 import { clearLocaleCookieForTest } from './locale-test-cleanup.util';
@@ -60,6 +60,24 @@ describe('LocaleService', () => {
     const service = TestBed.inject(LocaleService);
 
     expect(service.locale()).toBe('bn');
+  });
+
+  it('PWEB-21: defaults to English without ever touching document.cookie under RenderMode.Prerender (no REQUEST, not a browser platform)', () => {
+    const cookieSpy = spyOnProperty(document, 'cookie', 'get').and.throwError(
+      'NotYetImplemented (simulating the server DOM shim a real Prerender build hits)',
+    );
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: REQUEST, useValue: null },
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
+    });
+
+    const service = TestBed.inject(LocaleService);
+
+    expect(service.locale()).toBe('en');
+    expect(cookieSpy).not.toHaveBeenCalled();
   });
 
   it('setLocale updates the signal and persists a cookie for the next SSR request to read', () => {

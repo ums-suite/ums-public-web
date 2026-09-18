@@ -73,8 +73,25 @@ export const routes: Routes = [
         (m) => m.AcademicCalendarComponent,
       ),
   },
-  // Research/Campus, Downloads/News, and Search/Contact routes are added incrementally as each
-  // of PWEB-20..25 lands later in this same batch (see app.routes.ts's own git history) --
-  // deliberately not stubbed out ahead of the component existing, so `ng build`'s module
-  // resolution never points a lazy `import()` at a file that doesn't exist yet.
+  {
+    path: 'research',
+    data: { cacheControl: 'editorial-page' },
+    loadComponent: () =>
+      import('./features/research-campus/research-showcase.component').then(
+        (m) => m.ResearchShowcaseComponent,
+      ),
+  },
+  {
+    // RenderMode.Prerender (app.routes.server.ts) -- fully static content, no cacheControl data
+    // needed since a prerendered route has no live per-request RESPONSE_INIT to write a header to.
+    path: 'campus-information',
+    loadComponent: () =>
+      import('./features/research-campus/campus-information.component').then(
+        (m) => m.CampusInformationComponent,
+      ),
+  },
+  // Downloads/News and Search/Contact routes are added incrementally as each of PWEB-22..25 lands
+  // later in this same batch (see app.routes.ts's own git history) -- deliberately not stubbed out
+  // ahead of the component existing, so `ng build`'s module resolution never points a lazy
+  // `import()` at a file that doesn't exist yet.
 ];

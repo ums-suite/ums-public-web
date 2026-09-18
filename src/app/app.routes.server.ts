@@ -24,6 +24,12 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
  */
 export const serverRoutes: ServerRoute[] = [
   {
+    // PWEB-21: genuinely static content with no publish-window/locale-cookie/per-request
+    // dependency -- the exact bar this file's own class doc reserves `RenderMode.Prerender` for.
+    path: 'campus-information',
+    renderMode: RenderMode.Prerender,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Server,
   },
