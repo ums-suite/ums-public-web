@@ -1,0 +1,39 @@
+@if (notFound()) {
+  <p class="pweb-program-detail__status">{{ 'programs.detail.notFound' | translate }}</p>
+} @else if (program(); as p) {
+  <a class="pweb-program-detail__back" routerLink="/programs">{{
+    'programs.detail.backToCatalog' | translate
+  }}</a>
+
+  @if (unavailable()) {
+    <p class="pweb-program-detail__unavailable" role="status">
+      {{ 'programs.detail.noLongerAvailable' | translate }}
+    </p>
+  }
+
+  <div class="pweb-program-detail__layout">
+    <article class="pweb-program-detail__content">
+      <h1 class="pweb-display">{{ p.localizedName || p.name }}</h1>
+      <h2 class="pweb-display">{{ 'programs.detail.about' | translate }}</h2>
+      <p>{{ p.localizedName || p.name }}</p>
+    </article>
+
+    <aside class="pweb-program-detail__quick-facts">
+      <h2>{{ 'programs.detail.quickFacts' | translate }}</h2>
+      <dl>
+        @if (faculty(); as f) {
+          <dt>{{ 'programs.detail.faculty' | translate }}</dt>
+          <dd>{{ f.localizedName || f.name }}</dd>
+        }
+        @if (department(); as d) {
+          <dt>{{ 'programs.detail.department' | translate }}</dt>
+          <dd>{{ d.localizedName || d.name }}</dd>
+        }
+        <dt>{{ 'programs.detail.status' | translate }}</dt>
+        <dd>{{ p.status }}</dd>
+      </dl>
+
+      <pweb-apply-now-cta [programId]="p.id" />
+    </aside>
+  </div>
+}
